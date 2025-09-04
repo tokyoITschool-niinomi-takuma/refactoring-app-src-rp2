@@ -13,6 +13,7 @@ import jp.co.sss.crud.db.DBController;
  * メニュー画面を表示する。
  * 
  * 初回のコミット用コメント
+ * developブランチを利用した確認コメント追加
  *
  * @author System Shared
  *
