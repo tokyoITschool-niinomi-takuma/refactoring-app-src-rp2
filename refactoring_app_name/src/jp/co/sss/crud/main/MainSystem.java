@@ -11,6 +11,8 @@ import jp.co.sss.crud.db.DBController;
 /**
  * 社員情報管理システム開始クラス 社員情報管理システムはこのクラスから始まる。<br/>
  * メニュー画面を表示する。
+ * 
+ * 初回のコミット用コメント
  *
  * @author System Shared
  *
