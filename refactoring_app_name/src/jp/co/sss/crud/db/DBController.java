@@ -10,7 +10,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import jp.co.sss.crud.DTO.Employee;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantSQL;
 
@@ -27,64 +30,51 @@ public class DBController {
 
 	/**
 	 * 全ての社員情報を検索
-	 *
 	 * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
 	 * @throws SQLException           DB処理でエラーが発生した場合に送出
 	 */
-	public static void findAll() throws ClassNotFoundException, SQLException {
+	public static List<Employee> findAll() throws ClassNotFoundException, SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
+		// DBに接続
+		connection = DBManager.getDBConnection();
 
-		try {
-			// DBに接続
-			connection = DBManager.getDBConnection();
+		// ステートメントを作成
+		preparedStatement = connection.prepareStatement(ConstantSQL.SQL_ALL_SELECT);
 
-			// ステートメントを作成
-			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_ALL_SELECT);
+		// SQL文を実行
+		resultSet = preparedStatement.executeQuery();
 
-			// SQL文を実行
-			resultSet = preparedStatement.executeQuery();
-
-			//resultSetの結果Setがない場合はfalse
-			if (!resultSet.isBeforeFirst()) {
-				System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
-				return;
-			}
-
-			// レコードを出力
-			System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
-			while (resultSet.next()) {
-				System.out.print(resultSet.getString("emp_id") + "\t");
-				System.out.print(resultSet.getString("emp_name") + "\t");
-
-				int gender = Integer.parseInt(resultSet.getString("gender"));
-				if (gender == 0) {
-					System.out.print(ConstantMsg.OTHERS + "\t");
-				} else if (gender == 1) {
-					System.out.print(ConstantMsg.GENDER_MALE + "\t");
-
-				} else if (gender == 2) {
-					System.out.print(ConstantMsg.GENDER_FEMALE + "\t");
-
-				} else if (gender == 9) {
-					System.out.print(ConstantMsg.OTHERS + "\t");
-
-				}
-
-				System.out.print(resultSet.getString("birthday") + "\t");
-				System.out.println(resultSet.getString("dept_name"));
-			}
-
-			System.out.println("");
-		} finally {
-			// ResultSetをクローズ
-			DBManager.resultSetClose(resultSet);
-			// Statementをクローズ
-			DBManager.preparedStatementClose(preparedStatement);
-			// DBとの接続を切断
-			DBManager.DBCloseConnection(connection);
+		//resultSetの結果Setがない場合はfalse
+		if (!resultSet.isBeforeFirst()) {
+			System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
+			return null;
 		}
+		//employeeを格納するリストを生成
+		List<Employee> employees = new ArrayList<Employee>();
+		while (resultSet.next()) {
+			//Employeeのオブジェクトを生成
+			Employee employee = new Employee();
+			employee.setEmpId(resultSet.getInt("emp_id"));
+			employee.setEmpName(resultSet.getString("emp_name"));
+			employee.setGender(resultSet.getInt("gender"));
+			employee.setBirthday(resultSet.getDate("birthday"));
+			employee.setDeptId(resultSet.getInt("dept_id"));
+			employees.add(employee);
+		}
+		// レコードを出力
+		System.out.println(ConstantMsg.SEARCH_RESULT);
+
+		// ResultSetをクローズ
+		DBManager.resultSetClose(resultSet);
+		// Statementをクローズ
+		DBManager.preparedStatementClose(preparedStatement);
+		// DBとの接続を切断
+		DBManager.DBCloseConnection(connection);
+
+		return employees;
+
 	}
 
 	/**
@@ -125,7 +115,7 @@ public class DBController {
 				return;
 			}
 
-			System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+			System.out.println(ConstantMsg.SEARCH_RESULT);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id"));
 				System.out.print("\t");
@@ -202,7 +192,7 @@ public class DBController {
 				return;
 			}
 
-			System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+			System.out.println(ConstantMsg.SEARCH_RESULT);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id"));
 				System.out.print("\t");
