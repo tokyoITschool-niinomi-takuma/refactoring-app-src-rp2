@@ -25,7 +25,7 @@ public class DBManager {
 	 * @throws SQLException
 	 *             DB接続に失敗した場合
 	 */
-	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+	public static Connection getDBConnection() throws ClassNotFoundException, SQLException {
 
 		// JDBCドライバクラスをJVMに登録
 		Class.forName(JDBC_DRIVER);
@@ -44,7 +44,7 @@ public class DBManager {
 	 * @throws SQLException
 	 *             クローズ処理に失敗した場合に送出
 	 */
-	public static void close(Connection connection) throws SQLException {
+	public static void DBCloseConnection(Connection connection) throws SQLException {
 		if (connection != null) {
 			connection.close();
 		}
@@ -58,7 +58,7 @@ public class DBManager {
 	 * @throws SQLException
 	 *             クローズ処理に失敗した場合に送出
 	 */
-	public static void close(PreparedStatement preparedStatement) throws SQLException {
+	public static void preparedStatementClose(PreparedStatement preparedStatement) throws SQLException {
 		if (preparedStatement != null) {
 			preparedStatement.close();
 		}
@@ -72,7 +72,7 @@ public class DBManager {
 	 * @throws SQLException
 	 *             クローズ処理に失敗した場合に送出
 	 */
-	public static void close(ResultSet resultSet) throws SQLException {
+	public static void resultSetClose(ResultSet resultSet) throws SQLException {
 		if (resultSet != null) {
 			resultSet.close();
 		}

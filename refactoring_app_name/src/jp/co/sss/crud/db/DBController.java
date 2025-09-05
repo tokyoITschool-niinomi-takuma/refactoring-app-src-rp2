@@ -11,6 +11,7 @@ import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantSQL;
 
 /**
@@ -30,14 +31,14 @@ public class DBController {
 	 * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
 	 * @throws SQLException           DB処理でエラーが発生した場合に送出
 	 */
-	public static void find() throws ClassNotFoundException, SQLException {
+	public static void findAll() throws ClassNotFoundException, SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
 		try {
 			// DBに接続
-			connection = DBManager.getConnection();
+			connection = DBManager.getDBConnection();
 
 			// ステートメントを作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_ALL_SELECT);
@@ -47,7 +48,7 @@ public class DBController {
 
 			//resultSetの結果Setがない場合はfalse
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println("該当者はいませんでした");
+				System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
 				return;
 			}
 
@@ -59,15 +60,15 @@ public class DBController {
 
 				int gender = Integer.parseInt(resultSet.getString("gender"));
 				if (gender == 0) {
-					System.out.print("回答なし" + "\t");
+					System.out.print(ConstantMsg.OTHERS + "\t");
 				} else if (gender == 1) {
-					System.out.print("男性" + "\t");
+					System.out.print(ConstantMsg.GENDER_MALE + "\t");
 
 				} else if (gender == 2) {
-					System.out.print("女性" + "\t");
+					System.out.print(ConstantMsg.GENDER_FEMALE + "\t");
 
 				} else if (gender == 9) {
-					System.out.print("その他" + "\t");
+					System.out.print(ConstantMsg.OTHERS + "\t");
 
 				}
 
@@ -78,11 +79,11 @@ public class DBController {
 			System.out.println("");
 		} finally {
 			// ResultSetをクローズ
-			DBManager.close(resultSet);
+			DBManager.resultSetClose(resultSet);
 			// Statementをクローズ
-			DBManager.close(preparedStatement);
+			DBManager.preparedStatementClose(preparedStatement);
 			// DBとの接続を切断
-			DBManager.close(connection);
+			DBManager.DBCloseConnection(connection);
 		}
 	}
 
@@ -93,7 +94,7 @@ public class DBController {
 	 * @throws SQLException           DB処理でエラーが発生した場合に送出
 	 * @throws IOException            入力処理でエラーが発生した場合に送出
 	 */
-	public static void findB() throws ClassNotFoundException, SQLException, IOException {
+	public static void findByEmpName() throws ClassNotFoundException, SQLException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		// 検索ワード
@@ -105,7 +106,7 @@ public class DBController {
 
 		try {
 			// DBに接続
-			connection = DBManager.getConnection();
+			connection = DBManager.getDBConnection();
 
 			// SQL文を準備
 			StringBuffer sql = new StringBuffer(ConstantSQL.SQL_SELECT_BASIC);
@@ -120,7 +121,7 @@ public class DBController {
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println("該当者はいませんでした");
+				System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
 				return;
 			}
 
@@ -135,15 +136,15 @@ public class DBController {
 				String genderString = resultSet.getString("gender");
 				int gender = Integer.parseInt(genderString);
 				if (gender == 0) {
-					System.out.print("回答なし");
+					System.out.print(ConstantMsg.NO_ANSWER);
 				} else if (gender == 1) {
-					System.out.print("男性");
+					System.out.print(ConstantMsg.GENDER_MALE);
 
 				} else if (gender == 2) {
-					System.out.print("女性");
+					System.out.print(ConstantMsg.GENDER_FEMALE);
 
 				} else if (gender == 9) {
-					System.out.print("その他");
+					System.out.print(ConstantMsg.OTHERS);
 
 				}
 
@@ -158,11 +159,11 @@ public class DBController {
 
 		} finally {
 			// クローズ処理
-			DBManager.close(resultSet);
+			DBManager.resultSetClose(resultSet);
 			// Statementをクローズ
-			DBManager.close(preparedStatement);
+			DBManager.preparedStatementClose(preparedStatement);
 			// DBとの接続を切断
-			DBManager.close(connection);
+			DBManager.DBCloseConnection(connection);
 		}
 	}
 
@@ -173,7 +174,7 @@ public class DBController {
 	 * @throws SQLException           DB処理でエラーが発生した場合に送出
 	 * @throws IOException            入力処理でエラーが発生した場合に送出
 	 */
-	public static void findC(String deptId) throws ClassNotFoundException, SQLException, IOException {
+	public static void findByDeptId(String deptId) throws ClassNotFoundException, SQLException, IOException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -181,7 +182,7 @@ public class DBController {
 
 		try {
 			// DBに接続
-			connection = DBManager.getConnection();
+			connection = DBManager.getDBConnection();
 
 			// SQL文を準備
 			StringBuffer sql = new StringBuffer(ConstantSQL.SQL_SELECT_BASIC);
@@ -197,7 +198,7 @@ public class DBController {
 			resultSet = preparedStatement.executeQuery();
 
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println("該当者はいませんでした");
+				System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
 				return;
 			}
 
@@ -212,15 +213,15 @@ public class DBController {
 				String genderString = resultSet.getString("gender");
 				int gender = Integer.parseInt(genderString);
 				if (gender == 0) {
-					System.out.print("回答なし");
+					System.out.print(ConstantMsg.NO_ANSWER);
 				} else if (gender == 1) {
-					System.out.print("男性");
+					System.out.print(ConstantMsg.GENDER_MALE);
 
 				} else if (gender == 2) {
-					System.out.print("女性");
+					System.out.print(ConstantMsg.GENDER_FEMALE);
 
 				} else if (gender == 9) {
-					System.out.print("その他");
+					System.out.print(ConstantMsg.OTHERS);
 
 				}
 
@@ -231,11 +232,11 @@ public class DBController {
 				String deptIdString = resultSet.getString("dept_id");
 				int deptId2 = Integer.parseInt(deptIdString);
 				if (deptId2 == 1) {
-					System.out.println("営業部");
+					System.out.println(ConstantMsg.DEPT_ID_1);
 				} else if (deptId2 == 2) {
-					System.out.println("経理部");
+					System.out.println(ConstantMsg.DEPT_ID_2);
 				} else if (gender == 3) {
-					System.out.println("総務部");
+					System.out.println(ConstantMsg.DEPT_ID_3);
 
 				}
 			}
@@ -243,11 +244,11 @@ public class DBController {
 			System.out.println("");
 		} finally {
 			// クローズ処理
-			DBManager.close(resultSet);
+			DBManager.resultSetClose(resultSet);
 			// Statementをクローズ
-			DBManager.close(preparedStatement);
+			DBManager.preparedStatementClose(preparedStatement);
 			// DBとの接続を切断
-			DBManager.close(connection);
+			DBManager.DBCloseConnection(connection);
 		}
 	}
 
@@ -269,7 +270,7 @@ public class DBController {
 		PreparedStatement preparedStatement = null;
 		try {
 			// DBに接続
-			connection = DBManager.getConnection();
+			connection = DBManager.getDBConnection();
 
 			// ステートメントを作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT);
@@ -285,10 +286,10 @@ public class DBController {
 			preparedStatement.executeUpdate();
 
 			// 登録完了メッセージを出力
-			System.out.println("社員情報を登録しました");
+			System.out.println(ConstantMsg.INSERT_EMPLOYEE_INFORMATION);
 		} finally {
-			DBManager.close(preparedStatement);
-			DBManager.close(connection);
+			DBManager.preparedStatementClose(preparedStatement);
+			DBManager.DBCloseConnection(connection);
 		}
 	}
 
@@ -309,22 +310,22 @@ public class DBController {
 
 		try {
 			// データベースに接続
-			connection = DBManager.getConnection();
+			connection = DBManager.getDBConnection();
 
 			// ステートメントの作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
 
-			System.out.print("社員名：");
+			System.out.print(ConstantMsg.EMP_NAME);
 			String emp_name = br.readLine();
 			// 性別を入力
-			System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
+			System.out.print(ConstantMsg.SELECT_GENDER);
 			String gender = br.readLine();
 			// 誕生日を入力
-			System.out.print("生年月日(西暦年/月/日)：");
+			System.out.print(ConstantMsg.INPUT_DATE_OF_BIRTDAY);
 			String birthday = br.readLine();
 
 			// 部署IDを入力
-			System.out.print("部署ID(1：営業部、2：経理部、3：総務部)：");
+			System.out.print(ConstantMsg.SELECT_DEPT_ID);
 			String deptId = br.readLine();
 
 			// 入力値をバインド
@@ -340,9 +341,9 @@ public class DBController {
 
 		} finally {
 			// クローズ処理
-			DBManager.close(preparedStatement);
+			DBManager.preparedStatementClose(preparedStatement);
 			// DBとの接続を切断
-			DBManager.close(connection);
+			DBManager.DBCloseConnection(connection);
 		}
 	}
 
@@ -360,7 +361,7 @@ public class DBController {
 
 		try {
 			// データベースに接続
-			connection = DBManager.getConnection();
+			connection = DBManager.getDBConnection();
 			String empId = br.readLine();
 
 			// ステートメントの作成
@@ -372,7 +373,7 @@ public class DBController {
 			// SQL文の実行(失敗時は戻り値0)
 			preparedStatement.executeUpdate();
 
-			System.out.println("社員情報を削除しました");
+			System.out.println(ConstantMsg.DELETE_EMPLOYEE_INFOMATION);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -382,8 +383,8 @@ public class DBController {
 		finally {
 			// Statementをクローズ
 			try {
-				DBManager.close(preparedStatement);
-				DBManager.close(connection);
+				DBManager.preparedStatementClose(preparedStatement);
+				DBManager.DBCloseConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
