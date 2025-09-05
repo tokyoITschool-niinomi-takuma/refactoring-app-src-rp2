@@ -58,4 +58,6 @@ public class ConstantMsg {
 	public static final String DEPT_ID_2 = "経理部";
 	/**総務部*/
 	public static final String DEPT_ID_3 = "総務部";
+	/**検索結果の種類表示定数*/
+	public static final String SEARCH_RESULT = "社員ID\t社員名\t性別\t生年月日\t部署名";
 }
