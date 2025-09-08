@@ -39,8 +39,7 @@ public class EmployeeFindAllService {
 			employee.setEmpId(resultSet.getInt("emp_id"));
 			employee.setEmpName(resultSet.getString("emp_name"));
 			employee.setGender(resultSet.getInt("gender"));
-			employee.setBirthday(resultSet.getDate("birthday"));
-			employee.setDeptId(resultSet.getInt("dept_id"));
+			employee.setBirthday(resultSet.getString("birthday"));
 			employees.add(employee);
 		}
 		// ResultSetをクローズ
