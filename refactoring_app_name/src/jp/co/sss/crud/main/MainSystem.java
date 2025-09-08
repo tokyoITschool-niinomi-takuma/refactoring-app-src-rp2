@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
-import jp.co.sss.crud.db.DBController;
+import jp.co.sss.crud.DTO.Employee;
+import jp.co.sss.crud.db.EmployeeDAO;
+import jp.co.sss.crud.display.Display;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantValue;
 
@@ -54,24 +57,23 @@ public class MainSystem {
 			switch (menuNo) {
 			case ConstantValue.MENU_FIND_ALL:
 				// 全件表示機能の呼出
-				DBController.findAll();
+				List<Employee> employee = EmployeeDAO.findAll();
+				Display.find(employee);
 				break;
 
 			case ConstantValue.MENU_SEARCH_EMP_NAME:
 				// 社員名検索
-				System.out.print(ConstantMsg.EMP_NAME);
-
-				// 検索機能の呼出
-				DBController.findByEmpName();
+				List<Employee> findByEmpName = EmployeeDAO.findByEmpName();
+				Display.find(findByEmpName);
 				break;
 
 			case ConstantValue.MENU_SEARCH_DEPT_ID:
 				// 検索する部署IDを入力
 				System.out.print(ConstantMsg.INPUT_SELECT_DEPT_ID);
-				String deptIdA = br.readLine();
-
+				String selectDeptId = br.readLine();
 				// 検索機能の呼出
-				DBController.findByDeptId(deptIdA);
+				List<Employee> findByDeptId = EmployeeDAO.findByDeptId(selectDeptId);
+				Display.find(findByDeptId);
 				break;
 
 			case ConstantValue.MENU_INSERT:
@@ -79,14 +81,13 @@ public class MainSystem {
 				System.out.print(ConstantMsg.EMP_NAME);
 				String emp_name = br.readLine();
 				System.out.print(ConstantMsg.SELECT_GENDER);
-				String Seibetsu = br.readLine();
+				String gender = br.readLine();
 				System.out.print(ConstantMsg.INPUT_DATE_OF_BIRTDAY);
 				String birthday = br.readLine();
 				System.out.print(ConstantMsg.SELECT_DEPT_ID);
-				String deptIdB = br.readLine();
-
+				String deptId = br.readLine();
 				// 登録機能の呼出
-				DBController.insert(emp_name, Seibetsu, birthday, deptIdB);
+				EmployeeDAO.insert(emp_name, gender, birthday, deptId);
 				break;
 
 			case ConstantValue.MENU_UPDATE:
@@ -94,11 +95,11 @@ public class MainSystem {
 				System.out.print(ConstantMsg.UPDATE_SELECT_EMP_ID);
 
 				// 更新する値を入力する
-				String empId_1 = br.readLine();
-				Integer.parseInt(empId_1);
+				String updateEmpId = br.readLine();
+				Integer.parseInt(updateEmpId);
 
 				// 更新機能の呼出
-				DBController.update(empId_1);
+				EmployeeDAO.update(updateEmpId);
 				System.out.println(ConstantMsg.COMPLETE_UPDATE);
 
 				break;
@@ -108,7 +109,7 @@ public class MainSystem {
 				System.out.print(ConstantMsg.DELETE_EMP_ID);
 
 				// 削除機能の呼出
-				DBController.delete();
+				EmployeeDAO.delete();
 				break;
 
 			}
