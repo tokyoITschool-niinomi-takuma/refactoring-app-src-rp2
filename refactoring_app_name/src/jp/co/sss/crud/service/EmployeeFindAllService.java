@@ -1,35 +1,20 @@
 package jp.co.sss.crud.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.sss.crud.DTO.Employee;
-import jp.co.sss.crud.db.DBManager;
+import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.util.ConstantMsg;
-import jp.co.sss.crud.util.ConstantSQL;
 
 public class EmployeeFindAllService {
 	public static List<Employee> findAll() throws ClassNotFoundException, SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		// DBに接続
-		connection = DBManager.getDBConnection();
-
-		// ステートメントを作成
-		preparedStatement = connection.prepareStatement(ConstantSQL.SQL_ALL_SELECT);
-
-		// SQL文を実行
-		resultSet = preparedStatement.executeQuery();
-
-		//resultSetの結果Setがない場合はfalse
+		ResultSet resultSet = EmployeeDAO.findAll();
 		if (!resultSet.isBeforeFirst()) {
 			System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
-			return null;
+			return new ArrayList<Employee>();
 		}
 		//employeeを格納するリストを生成
 		List<Employee> employees = new ArrayList<Employee>();
@@ -40,16 +25,10 @@ public class EmployeeFindAllService {
 			employee.setEmpName(resultSet.getString("emp_name"));
 			employee.setGender(resultSet.getInt("gender"));
 			employee.setBirthday(resultSet.getString("birthday"));
+			employee.setDeptName(resultSet.getString("dept_name"));
 			employees.add(employee);
 		}
-		// ResultSetをクローズ
-		DBManager.resultSetClose(resultSet);
-		// Statementをクローズ
-		DBManager.preparedStatementClose(preparedStatement);
-		// DBとの接続を切断
-		DBManager.DBCloseConnection(connection);
-
 		return employees;
-
 	}
+
 }
