@@ -1,5 +1,5 @@
 package jp.co.sss.crud.service;
 
-public class EmployeeUpdateService implements IEmployeeService {
+public class EmployeeUpdateService {
 
 }

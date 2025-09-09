@@ -1,5 +1,18 @@
 package jp.co.sss.crud.service;
 
-public class EmployeeFindByEmpNameService implements IEmployeeService {
+import java.util.List;
 
+import jp.co.sss.crud.DTO.Employee;
+import jp.co.sss.crud.db.EmployeeDAO;
+import jp.co.sss.crud.exception.IllegalInputException;
+import jp.co.sss.crud.exception.SystemErrorException;
+import jp.co.sss.crud.io.ConsoleWriter;
+
+public abstract class EmployeeFindByEmpNameService implements IEmployeeService {
+
+	public void execute(String seachName) throws SystemErrorException, IllegalInputException {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		List<Employee> employees = employeeDAO.findByEmployeeName(null);
+		ConsoleWriter.showSearchreSult(employees);
+	}
 }
