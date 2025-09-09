@@ -1,5 +1,7 @@
 package jp.co.sss.crud.DTO;
 
+import jp.co.sss.crud.util.ConstantMsg;
+
 public class Employee {
 
 	private int empId;
@@ -57,4 +59,14 @@ public class Employee {
 		this.deptId = deptId;
 	}
 
+	@Override
+	public String toString() {
+		String gender_ja = " ";
+		if (this.gender == 1) {
+			gender_ja = ConstantMsg.GENDER_MALE;
+		} else if (this.gender == 2) {
+			gender_ja = ConstantMsg.GENDER_FEMALE;
+		}
+		return empId + "\t" + empName + "\t" + gender_ja + "\t" + birthday + "\t" + deptName;
+	}
 }
