@@ -60,4 +60,28 @@ public class ConsoleWriter {
 		System.out.println(ConstantMsg.INSERT_EMPLOYEE_INFORMATION);
 		return employee;
 	}
+
+	public static Employee update() throws SystemErrorException, IllegalInputException {
+		Employee employee = new Employee();
+		EmployeeEmpIdReader empIdReader = new EmployeeEmpIdReader();
+		EmployeeNameReader NameReader = new EmployeeNameReader();
+		EmployeeGenderReader GenderReader = new EmployeeGenderReader();
+		EmployeeBirthdayReader birthdayReader = new EmployeeBirthdayReader();
+		EmployeeDeptIdReader deptIdReader = new EmployeeDeptIdReader();
+		// 更新する社員IDを入力
+		System.out.print(ConstantMsg.UPDATE_SELECT_EMP_ID);
+		employee.setEmpId((int) empIdReader.input());
+		//各更新項目の表示と入力
+		System.out.print(ConstantMsg.EMP_NAME);
+		employee.setEmpName((String) NameReader.input());
+		System.out.print(ConstantMsg.SELECT_GENDER);
+		employee.setGender((int) GenderReader.input());
+		System.out.print(ConstantMsg.INPUT_DATE_OF_BIRTDAY);
+		employee.setBirthday((String) birthdayReader.input());
+		System.out.print(ConstantMsg.SELECT_DEPT_ID);
+		employee.setDeptId((int) deptIdReader.input());
+		//更新完了メッセージ
+		System.out.println(ConstantMsg.COMPLETE_UPDATE);
+		return employee;
+	}
 }

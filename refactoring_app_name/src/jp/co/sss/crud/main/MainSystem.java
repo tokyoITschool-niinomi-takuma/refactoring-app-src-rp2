@@ -15,6 +15,7 @@ import jp.co.sss.crud.service.EmployeeFindAllService;
 import jp.co.sss.crud.service.EmployeeFindByDeptIdService;
 import jp.co.sss.crud.service.EmployeeFindByEmpNameService;
 import jp.co.sss.crud.service.EmployeeRegisterService;
+import jp.co.sss.crud.service.EmployeeUpdateService;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantValue;
 
@@ -119,20 +120,12 @@ public class MainSystem {
 				registerService.execute();
 				break;
 
-			//			case ConstantValue.MENU_UPDATE:
-			//				// 更新する社員IDを入力
-			//				System.out.print(ConstantMsg.UPDATE_SELECT_EMP_ID);
-			//
-			//				// 更新する値を入力する
-			//				String updateEmpId = br.readLine();
-			//				Integer.parseInt(updateEmpId);
-			//
-			//				// 更新機能の呼出
-			//				EmployeeDAO.update(updateEmpId);
-			//				System.out.println(ConstantMsg.COMPLETE_UPDATE);
-			//
-			//				break;
-			//
+			case ConstantValue.MENU_UPDATE:
+				// 更新機能の呼出
+				EmployeeUpdateService updateService = new EmployeeUpdateService();
+				updateService.execute();
+				break;
+
 			//			case ConstantValue.MENU_DELETE:
 			//				// 削除する社員IDを入力
 			//				System.out.print(ConstantMsg.DELETE_EMP_ID);

@@ -175,62 +175,44 @@ public class EmployeeDAO implements IEmployeeDAO {
 			throw new SystemErrorException();
 		}
 	}
+
+	/**
+	* 社員情報を1件更新
+	* 
+	* @param empId 社員ID
+	* @throws ClassNotFoundException ドライバクラスが不在の場合に送出
+	* @throws SQLException            DB処理でエラーが発生した場合に送出
+	* @throws IOException             入力処理でエラーが発生した場合に送出
+	* @throws ParseException 
+	*/
+	public void update(Employee employee) throws SystemErrorException {
+
+		try (
+				// データベースに接続
+				Connection connection = DBManager.getDBConnection();
+
+				// ステートメントの作成
+				PreparedStatement preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE)) {
+
+			preparedStatement.setInt(1, employee.getEmpId());
+			// 入力値をバインド
+			preparedStatement.setString(1, employee.getEmpName());
+			preparedStatement.setInt(2, employee.getGender());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			preparedStatement.setObject(3, sdf.parse(employee.getBirthday()), Types.DATE);
+			preparedStatement.setInt(4, employee.getDeptId());
+			preparedStatement.setInt(5, employee.getEmpId());
+
+			// SQL文の実行(失敗時は戻り値0)
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException | ClassNotFoundException | ParseException e) {
+			e.printStackTrace();
+			throw new SystemErrorException();
+		}
+	}
 }
 
-//	/**
-//	* 社員情報を1件更新
-//	* 
-//	* @param empId 社員ID
-//	* @throws ClassNotFoundException ドライバクラスが不在の場合に送出
-//	* @throws SQLException            DB処理でエラーが発生した場合に送出
-//	* @throws IOException             入力処理でエラーが発生した場合に送出
-//	* @throws ParseException 
-//	*/
-//	@Override
-//	public Integer update(Employee employee) throws SystemErrorException {
-//		Connection connection = null;
-//		PreparedStatement preparedStatement = null;
-//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//
-//		try {
-//			// データベースに接続
-//			connection = DBManager.getDBConnection();
-//
-//			// ステートメントの作成
-//			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
-//
-//			System.out.print(ConstantMsg.EMP_NAME);
-//			String emp_name = br.readLine();
-//			// 性別を入力
-//			System.out.print(ConstantMsg.SELECT_GENDER);
-//			String gender = br.readLine();
-//			// 誕生日を入力
-//			System.out.print(ConstantMsg.INPUT_DATE_OF_BIRTDAY);
-//			String birthday = br.readLine();
-//
-//			// 部署IDを入力
-//			System.out.print(ConstantMsg.SELECT_DEPT_ID);
-//			String deptId = br.readLine();
-//
-//			// 入力値をバインド
-//			preparedStatement.setString(1, emp_name);
-//			preparedStatement.setInt(2, Integer.parseInt(gender));
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-//			preparedStatement.setInt(4, Integer.parseInt(deptId));
-//			preparedStatement.setInt(5, Integer.parseInt(empId));
-//
-//			// SQL文の実行(失敗時は戻り値0)
-//			preparedStatement.executeUpdate();
-//
-//		} finally {
-//			// クローズ処理
-//			DBManager.preparedStatementClose(preparedStatement);
-//			// DBとの接続を切断
-//			DBManager.DBCloseConnection(connection);
-//		}
-//	}
-//
 //	@Override
 //	public Integer delete(Integer empId) throws SystemErrorException {
 //		Connection connection = null;
