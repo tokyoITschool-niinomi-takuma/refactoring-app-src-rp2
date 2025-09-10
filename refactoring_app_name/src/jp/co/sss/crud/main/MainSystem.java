@@ -10,9 +10,11 @@ import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 import jp.co.sss.crud.io.EmployeeNameReader;
+import jp.co.sss.crud.io.MenuNoReader;
 import jp.co.sss.crud.service.EmployeeFindAllService;
 import jp.co.sss.crud.service.EmployeeFindByDeptIdService;
 import jp.co.sss.crud.service.EmployeeFindByEmpNameService;
+import jp.co.sss.crud.service.EmployeeRegisterService;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantValue;
 
@@ -37,6 +39,33 @@ public class MainSystem {
 	 * @throws SystemErrorException 
 	 * @throws IllegalInputException 
 	 */
+	/**
+	 * @param args
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
+	/**
+	 * @param args
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
+	/**
+	 * @param args
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
 	public static void main(String[] args)
 			throws IOException, ClassNotFoundException, SQLException, ParseException, SystemErrorException,
 			IllegalInputException {
@@ -49,9 +78,8 @@ public class MainSystem {
 			ConsoleWriter.showMenu();
 
 			// メニュー番号の入力
-			String menuNoStr = br.readLine();
-			menuNo = Integer.parseInt(menuNoStr);
-
+			MenuNoReader menuNoReader = new MenuNoReader();
+			menuNo = (int) menuNoReader.input();
 			// 機能の呼出
 			switch (menuNo) {
 			//全件検索
@@ -84,19 +112,12 @@ public class MainSystem {
 				deptIdService.execute(findByDeptId);
 				break;
 
-			//			case ConstantValue.MENU_INSERT:
-			//				// 登録する値を入力
-			//				System.out.print(ConstantMsg.EMP_NAME);
-			//				String emp_name = br.readLine();
-			//				System.out.print(ConstantMsg.SELECT_GENDER);
-			//				String gender = br.readLine();
-			//				System.out.print(ConstantMsg.INPUT_DATE_OF_BIRTDAY);
-			//				String birthday = br.readLine();
-			//				System.out.print(ConstantMsg.SELECT_DEPT_ID);
-			//				String deptId = br.readLine();
-			//				// 登録機能の呼出
-			//				EmployeeDAO.insert(emp_name, gender, birthday, deptId);
-			//				break;
+			//新規登録
+			case ConstantValue.MENU_INSERT:
+				//新規登録機能呼び出し
+				EmployeeRegisterService registerService = new EmployeeRegisterService();
+				registerService.execute();
+				break;
 
 			//			case ConstantValue.MENU_UPDATE:
 			//				// 更新する社員IDを入力

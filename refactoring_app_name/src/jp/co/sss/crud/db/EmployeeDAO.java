@@ -155,22 +155,21 @@ public class EmployeeDAO implements IEmployeeDAO {
 	 * @throws IOException             入力処理でエラーが発生した場合に送出
 	 * @throws ParseException 
 	 */
-	public void insert(String empName, int gender, String birthday, int deptId) throws SystemErrorException {
+	public void insert(Employee employee)
+			throws SystemErrorException {
 		try (
 				// DBに接続
 				Connection connection = DBManager.getDBConnection();
 				// ステートメントを作成
 				PreparedStatement preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT)) {
 			// 入力値をバインド
-			preparedStatement.setString(1, empName);
-			preparedStatement.setInt(2, gender);
+			preparedStatement.setString(1, employee.getEmpName());
+			preparedStatement.setInt(2, employee.getGender());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-			preparedStatement.setInt(4, deptId);
+			preparedStatement.setObject(3, sdf.parse(employee.getBirthday()), Types.DATE);
+			preparedStatement.setInt(4, employee.getDeptId());
 			// SQL文を実行
 			preparedStatement.executeUpdate();
-			// 登録完了メッセージを出力
-			System.out.println(ConstantMsg.INSERT_EMPLOYEE_INFORMATION);
 		} catch (SQLException | ClassNotFoundException | ParseException e) {
 			e.printStackTrace();
 			throw new SystemErrorException();
