@@ -1,16 +1,16 @@
 package jp.co.sss.crud.io;
 
-public class EmployeeDeptIdReader implements IConsoleReader {
+public class MenuNoReader implements IConsoleReader {
 
 	@Override
 	public String getErrorMsg() {
-		return "1以上3以下の整数を入力してください";
+		return "1以上7以下の整数を入力してください";
 	}
 
 	@Override
 	public boolean isValid(String inputString) {
 		return inputString != null && !inputString.isEmpty() &&
-				inputString == "^[1-3１-３]{1}$";
+				inputString == "^[1-7１-７]{1}$";
 	}
 
 	@Override
