@@ -6,9 +6,13 @@ import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
-public class EmployeeDeleteService implements IEmployeeService {
+public class EmployeeDeleteService {
 
-	@Override
+	/**
+	 * 削除用のサービスクラス
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
 	public void execute() throws SystemErrorException, IllegalInputException {
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 		Employee employee = ConsoleWriter.delete();

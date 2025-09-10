@@ -10,6 +10,12 @@ import jp.co.sss.crud.io.ConsoleWriter;
 
 public class EmployeeFindByDeptIdService {
 
+	/**
+	 * 部署ID検索サービスクラス
+	 * @param deptId
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
 	public void execute(int deptId) throws SystemErrorException, IllegalInputException {
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 		List<Employee> employees = employeeDAO.findByDeptId(deptId);

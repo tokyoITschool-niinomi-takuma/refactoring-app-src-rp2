@@ -9,8 +9,9 @@ import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
 public class EmployeeFindByEmpNameService {
+
 	/**
-	 * 社員名検索用サービスクラス
+	 * 社員名検索サービスクラス
 	 */
 	public void execute(String searchName) throws SystemErrorException, IllegalInputException {
 		EmployeeDAO employeeDAO = new EmployeeDAO();

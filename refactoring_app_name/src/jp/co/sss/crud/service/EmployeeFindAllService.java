@@ -7,9 +7,10 @@ import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
-public class EmployeeFindAllService implements IEmployeeService {
+public class EmployeeFindAllService {
+
 	/**
-	 * 全件検索用サービスクラス
+	 * 更新用のサービスクラス
 	 */
 	public void execute() throws SystemErrorException {
 		EmployeeDAO employeeDAO = new EmployeeDAO();

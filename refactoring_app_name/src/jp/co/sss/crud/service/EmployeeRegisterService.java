@@ -7,6 +7,12 @@ import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
 public class EmployeeRegisterService {
+
+	/**
+	 * 新規登録サービスクラス
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
 	public void execute()
 			throws SystemErrorException, IllegalInputException {
 		EmployeeDAO employeeDAO = new EmployeeDAO();

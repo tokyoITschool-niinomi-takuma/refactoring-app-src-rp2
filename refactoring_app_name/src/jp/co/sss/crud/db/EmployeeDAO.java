@@ -16,7 +16,7 @@ import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantSQL;
 
-public class EmployeeDAO implements IEmployeeDAO {
+public class EmployeeDAO {
 
 	/**
 	 * 全ての社員情報を検索
@@ -64,24 +64,22 @@ public class EmployeeDAO implements IEmployeeDAO {
 	public List<Employee> findByEmployeeName(String searchName) throws SystemErrorException {
 		//employeeを格納するリストを生成
 		List<Employee> employees = new ArrayList<Employee>();
-
+		//検索ワードがnullや空文字じゃないかの確認
 		if (searchName == null || searchName.isEmpty()) {
 			searchName = "";
+			return employees;
 		}
 		String sql = ConstantSQL.SQL_SELECT_BASIC + ConstantSQL.SQL_SELECT_BY_EMP_NAME;
-
 		try (
 				Connection connection = DBManager.getDBConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 			preparedStatement.setString(1, "%" + searchName + "%");
-
 			try (ResultSet resultSet = preparedStatement.executeQuery()) {
 				if (!resultSet.isBeforeFirst()) {
 					System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
 					// 空リストを返す
 					return employees;
 				}
-
 				while (resultSet.next()) {
 					Employee employee = new Employee();
 					employee.setEmpId(resultSet.getInt("emp_id"));
@@ -120,7 +118,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 			preparedStatement.setInt(1, deptId);
 			// SQL文を実行
 			try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
 				if (!resultSet.isBeforeFirst()) {
 					System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
 					return employees;
@@ -145,7 +142,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 
 	/**
 	 * 社員情報を1件登録
-	 * 
 	 * @param empName 社員名
 	 * @param gender 性別
 	 * @param birthday 生年月日
@@ -178,7 +174,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 
 	/**
 	* 社員情報を1件更新
-	* 
 	* @param empId 社員ID
 	* @throws ClassNotFoundException ドライバクラスが不在の場合に送出
 	* @throws SQLException            DB処理でエラーが発生した場合に送出
@@ -186,7 +181,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 	* @throws ParseException 
 	*/
 	public void update(Employee employee) throws SystemErrorException {
-
 		try (
 				// データベースに接続
 				Connection connection = DBManager.getDBConnection();
@@ -202,16 +196,19 @@ public class EmployeeDAO implements IEmployeeDAO {
 			preparedStatement.setObject(3, sdf.parse(employee.getBirthday()), Types.DATE);
 			preparedStatement.setInt(4, employee.getDeptId());
 			preparedStatement.setInt(5, employee.getEmpId());
-
 			// SQL文の実行(失敗時は戻り値0)
 			preparedStatement.executeUpdate();
-
 		} catch (SQLException | ClassNotFoundException | ParseException e) {
 			e.printStackTrace();
 			throw new SystemErrorException();
 		}
 	}
 
+	/**
+	 * 社員情報の削除
+	 * @param employee
+	 * @throws SystemErrorException
+	 */
 	public void delete(Employee employee) throws SystemErrorException {
 		try (
 				// データベースに接続
