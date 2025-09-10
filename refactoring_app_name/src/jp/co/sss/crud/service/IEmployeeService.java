@@ -2,7 +2,6 @@ package jp.co.sss.crud.service;
 
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
-import jp.co.sss.crud.util.ConstantValue;
 
 public interface IEmployeeService {
 
@@ -17,9 +16,9 @@ public interface IEmployeeService {
 		/*====menuNoごとにインスタンスを生成する。必要に応じてcaseを追加する====*/
 		switch (menuNo) {
 		//menu1 全件検索
-		case ConstantValue.MENU_FIND_ALL:
-			newInstance = new EmployeeFindAllService();
-			break;
+		//		case ConstantValue.MENU_FIND_ALL:
+		//			newInstance = new EmployeeFindAllService();
+		//			break;
 		//		case ConstantValue.MENU_SEARCH_EMP_NAME:
 		//			newInstance = new EmployeeFindByEmpNameService();
 		//			break;

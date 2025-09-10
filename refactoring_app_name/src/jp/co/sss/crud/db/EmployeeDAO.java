@@ -61,6 +61,9 @@ public class EmployeeDAO implements IEmployeeDAO {
 		//employeeを格納するリストを生成
 		List<Employee> employees = new ArrayList<Employee>();
 
+		if (searchName == null || searchName.isEmpty()) {
+			searchName = "";
+		}
 		String sql = ConstantSQL.SQL_SELECT_BASIC + ConstantSQL.SQL_SELECT_BY_EMP_NAME;
 
 		try (
@@ -87,9 +90,8 @@ public class EmployeeDAO implements IEmployeeDAO {
 			}
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			throw new SystemErrorException(sql, null);
+			throw new SystemErrorException();
 		}
-
 		return employees;
 	}
 }
@@ -152,18 +154,18 @@ public class EmployeeDAO implements IEmployeeDAO {
 //		}
 //	}
 //
-//	/**
-//	 * 社員情報を1件登録
-//	 * 
-//	 * @param empName 社員名
-//	 * @param gender 性別
-//	 * @param birthday 生年月日
-//	 * @param deptId 部署ID
-//	 * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
-//	 * @throws SQLException            DB処理でエラーが発生した場合に送出
-//	 * @throws IOException             入力処理でエラーが発生した場合に送出
-//	 * @throws ParseException 
-//	 */
+/**
+ * 社員情報を1件登録
+ * 
+ * @param empName 社員名
+ * @param gender 性別
+ * @param birthday 生年月日
+ * @param deptId 部署ID
+ * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
+ * @throws SQLException            DB処理でエラーが発生した場合に送出
+ * @throws IOException             入力処理でエラーが発生した場合に送出
+ * @throws ParseException 
+ */
 //	@Override
 //	public void insert(Employee employee) throws SystemErrorException {
 //		Connection connection = null;
@@ -193,7 +195,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 //		}
 //
 //	}
-//
+
 //	/**
 //	* 社員情報を1件更新
 //	* 

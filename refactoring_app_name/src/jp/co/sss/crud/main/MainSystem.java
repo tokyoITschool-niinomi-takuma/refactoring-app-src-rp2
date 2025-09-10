@@ -9,7 +9,9 @@ import java.text.ParseException;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
+import jp.co.sss.crud.io.EmployeeNameReader;
 import jp.co.sss.crud.service.EmployeeFindAllService;
+import jp.co.sss.crud.service.EmployeeFindByEmpNameService;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantValue;
 
@@ -57,13 +59,14 @@ public class MainSystem {
 				employeeFindAllService.execute();
 				break;
 
-			//			case ConstantValue.MENU_SEARCH_EMP_NAME:
-			//				// 社員名検索
-			//				EmployeeFindByEmpNameService employeeFindByEmpNameService = new EmployeeFindByEmpNameService();
-			//				EmployeeNameReader employeeNameReader = new EmployeeNameReader();
-			//				EmployeeNameReader.input();
-			//				employeeFindByEmpNameService.execute();
-			//				break;
+			case ConstantValue.MENU_SEARCH_EMP_NAME:
+				// 社員名検索
+				EmployeeFindByEmpNameService employeeFindByEmpNameService = new EmployeeFindByEmpNameService();
+				EmployeeNameReader employeeNameReader = new EmployeeNameReader();
+				System.out.println(ConstantMsg.EMP_NAME);
+				String searchName = (String) employeeNameReader.input();
+				employeeFindByEmpNameService.execute(searchName);
+				break;
 
 			//			case ConstantValue.MENU_SEARCH_DEPT_ID:
 			//				// 検索する部署IDを入力
@@ -87,7 +90,7 @@ public class MainSystem {
 			//				// 登録機能の呼出
 			//				EmployeeDAO.insert(emp_name, gender, birthday, deptId);
 			//				break;
-			//
+
 			//			case ConstantValue.MENU_UPDATE:
 			//				// 更新する社員IDを入力
 			//				System.out.print(ConstantMsg.UPDATE_SELECT_EMP_ID);

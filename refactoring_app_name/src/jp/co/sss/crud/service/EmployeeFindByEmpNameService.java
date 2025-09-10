@@ -8,11 +8,13 @@ import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
-public abstract class EmployeeFindByEmpNameService implements IEmployeeService {
-
-	public void execute(String seachName) throws SystemErrorException, IllegalInputException {
+public class EmployeeFindByEmpNameService {
+	/**
+	 * 社員名検索用サービスクラス
+	 */
+	public void execute(String searchName) throws SystemErrorException, IllegalInputException {
 		EmployeeDAO employeeDAO = new EmployeeDAO();
-		List<Employee> employees = employeeDAO.findByEmployeeName(null);
+		List<Employee> employees = employeeDAO.findByEmployeeName(searchName);
 		ConsoleWriter.showSearchreSult(employees);
 	}
 }
