@@ -9,8 +9,7 @@ public class MenuNoReader implements IConsoleReader {
 
 	@Override
 	public boolean isValid(String inputString) {
-		return inputString != null && !inputString.isEmpty() &&
-				inputString == "^[1-7１-７]{1}$";
+		return inputString != null && !inputString.isEmpty();
 	}
 
 	@Override

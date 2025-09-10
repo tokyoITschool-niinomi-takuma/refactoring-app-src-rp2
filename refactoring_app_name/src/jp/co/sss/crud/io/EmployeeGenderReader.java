@@ -9,8 +9,7 @@ public class EmployeeGenderReader implements IConsoleReader {
 
 	@Override
 	public boolean isValid(String inputString) {
-		return inputString != null && !inputString.isEmpty() &&
-				inputString == "^|[0129０１２９]{1}$";
+		return inputString != null && !inputString.isEmpty();
 	}
 
 	@Override

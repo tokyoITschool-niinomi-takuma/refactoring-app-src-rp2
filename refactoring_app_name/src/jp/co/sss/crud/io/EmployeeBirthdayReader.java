@@ -9,7 +9,7 @@ public class EmployeeBirthdayReader implements IConsoleReader {
 
 	@Override
 	public boolean isValid(String inputString) {
-		return inputString != null && !inputString.isEmpty() && inputString == "yyyy/MM/dd";
+		return inputString != null && !inputString.isEmpty();
 	}
 
 	@Override

@@ -9,8 +9,7 @@ public class EmployeeDeptIdReader implements IConsoleReader {
 
 	@Override
 	public boolean isValid(String inputString) {
-		return inputString != null && !inputString.isEmpty() &&
-				inputString == "^[1-3１-３]{1}$";
+		return inputString != null && !inputString.isEmpty();
 	}
 
 	@Override
