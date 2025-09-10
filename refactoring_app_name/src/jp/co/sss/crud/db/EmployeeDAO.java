@@ -1,9 +1,13 @@
 package jp.co.sss.crud.db;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,107 +98,85 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 		return employees;
 	}
-}
 
-//	/** 
-//	* 部署IDに該当する社員情報を検索
-//	* @return 部署ID検索結果
-//	* @throws ClassNotFoundException ドライバクラスが不在の場合に送出
-//	* @throws SQLException           DB処理でエラーが発生した場合に送出
-//	* @throws IOException            入力処理でエラーが発生した場合に送出
-//	*/
-//	@Override
-//	public List<Employee> findByDeptId(int deptId) throws SystemErrorException {
-//
-//		Connection connection = null;
-//		PreparedStatement preparedStatement = null;
-//		ResultSet resultSet = null;
-//
-//		try {
-//			// DBに接続
-//			connection = DBManager.getDBConnection();
-//
-//			// SQL文を準備
-//			StringBuffer sql = new StringBuffer(ConstantSQL.SQL_SELECT_BASIC);
-//			sql.append(ConstantSQL.SQL_SELECT_BY_DEPT_ID);
-//
-//			// ステートメントの作成
-//			preparedStatement = connection.prepareStatement(sql.toString());
-//
-//			// 検索条件となる値をバインド
-//			preparedStatement.setInt(1, Integer.parseInt(deptId));
-//			// SQL文を実行
-//			resultSet = preparedStatement.executeQuery();
-//
-//			if (!resultSet.isBeforeFirst()) {
-//				System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
-//				return new ArrayList<Employee>();
-//			}
-//			//employeeを格納するリストを生成
-//			List<Employee> employees = new ArrayList<Employee>();
-//			while (resultSet.next()) {
-//				//Employeeのオブジェクトを生成
-//				Employee employee = new Employee();
-//				employee.setEmpId(resultSet.getInt("emp_id"));
-//				employee.setEmpName(resultSet.getString("emp_name"));
-//				employee.setGender(resultSet.getInt("gender"));
-//				employee.setBirthday(resultSet.getString("birthday"));
-//				employee.setDeptName(resultSet.getString("dept_name"));
-//				employees.add(employee);
-//			}
-//			return employees;
-//		} finally {
-//
-//			// クローズ処理
-//			DBManager.resultSetClose(resultSet);
-//			// Statementをクローズ
-//			DBManager.preparedStatementClose(preparedStatement);
-//			// DBとの接続を切断
-//			DBManager.DBCloseConnection(connection);
-//		}
-//	}
-//
-/**
- * 社員情報を1件登録
- * 
- * @param empName 社員名
- * @param gender 性別
- * @param birthday 生年月日
- * @param deptId 部署ID
- * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
- * @throws SQLException            DB処理でエラーが発生した場合に送出
- * @throws IOException             入力処理でエラーが発生した場合に送出
- * @throws ParseException 
- */
-//	@Override
-//	public void insert(Employee employee) throws SystemErrorException {
-//		Connection connection = null;
-//		PreparedStatement preparedStatement = null;
-//		try {
-//			// DBに接続
-//			connection = DBManager.getDBConnection();
-//
-//			// ステートメントを作成
-//			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT);
-//
-//			// 入力値をバインド
-//			preparedStatement.setString(1, empName);
-//			preparedStatement.setInt(2, Integer.parseInt(gender));
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-//			preparedStatement.setInt(4, Integer.parseInt(deptId));
-//
-//			// SQL文を実行
-//			preparedStatement.executeUpdate();
-//
-//			// 登録完了メッセージを出力
-//			System.out.println(ConstantMsg.INSERT_EMPLOYEE_INFORMATION);
-//		} finally {
-//			DBManager.preparedStatementClose(preparedStatement);
-//			DBManager.DBCloseConnection(connection);
-//		}
-//
-//	}
+	/** 
+	* 部署IDに該当する社員情報を検索
+	* @return 部署ID検索結果
+	* @throws ClassNotFoundException ドライバクラスが不在の場合に送出
+	* @throws SQLException           DB処理でエラーが発生した場合に送出
+	* @throws IOException            入力処理でエラーが発生した場合に送出
+	*/
+	public List<Employee> findByDeptId(int deptId) throws SystemErrorException {
+		//employeeを格納するリストを生成
+		List<Employee> employees = new ArrayList<Employee>();
+		// SQL文を準備
+		String sql = ConstantSQL.SQL_SELECT_BASIC + ConstantSQL.SQL_SELECT_BY_DEPT_ID;
+		try (
+				// DBに接続
+				Connection connection = DBManager.getDBConnection();
+				// ステートメントの作成
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			// 検索条件となる値をバインド
+			preparedStatement.setInt(1, deptId);
+			// SQL文を実行
+			try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+				if (!resultSet.isBeforeFirst()) {
+					System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
+					return employees;
+				}
+				while (resultSet.next()) {
+					//Employeeのオブジェクトを生成
+					Employee employee = new Employee();
+					employee.setEmpId(resultSet.getInt("emp_id"));
+					employee.setEmpName(resultSet.getString("emp_name"));
+					employee.setGender(resultSet.getInt("gender"));
+					employee.setBirthday(resultSet.getString("birthday"));
+					employee.setDeptName(resultSet.getString("dept_name"));
+					employees.add(employee);
+				}
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new SystemErrorException();
+		}
+		return employees;
+	}
+
+	/**
+	 * 社員情報を1件登録
+	 * 
+	 * @param empName 社員名
+	 * @param gender 性別
+	 * @param birthday 生年月日
+	 * @param deptId 部署ID
+	 * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
+	 * @throws SQLException            DB処理でエラーが発生した場合に送出
+	 * @throws IOException             入力処理でエラーが発生した場合に送出
+	 * @throws ParseException 
+	 */
+	public void insert(String empName, int gender, String birthday, int deptId) throws SystemErrorException {
+		try (
+				// DBに接続
+				Connection connection = DBManager.getDBConnection();
+				// ステートメントを作成
+				PreparedStatement preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT)) {
+			// 入力値をバインド
+			preparedStatement.setString(1, empName);
+			preparedStatement.setInt(2, gender);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
+			preparedStatement.setInt(4, deptId);
+			// SQL文を実行
+			preparedStatement.executeUpdate();
+			// 登録完了メッセージを出力
+			System.out.println(ConstantMsg.INSERT_EMPLOYEE_INFORMATION);
+		} catch (SQLException | ClassNotFoundException | ParseException e) {
+			e.printStackTrace();
+			throw new SystemErrorException();
+		}
+	}
+}
 
 //	/**
 //	* 社員情報を1件更新
