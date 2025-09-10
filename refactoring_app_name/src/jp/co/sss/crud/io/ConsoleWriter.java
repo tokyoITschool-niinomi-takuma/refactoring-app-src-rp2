@@ -35,7 +35,7 @@ public class ConsoleWriter {
 	}
 
 	/**
-	 * 
+	 * 新規登録のコンソール表示
 	 * @return 新規登録完了
 	 * @throws SystemErrorException
 	 * @throws IllegalInputException
@@ -61,6 +61,12 @@ public class ConsoleWriter {
 		return employee;
 	}
 
+	/**
+	 * 更新時のコンソール表示
+	 * @return 更新完了
+	 * @throws SystemErrorException
+	 * @throws IllegalInputException
+	 */
 	public static Employee update() throws SystemErrorException, IllegalInputException {
 		Employee employee = new Employee();
 		EmployeeEmpIdReader empIdReader = new EmployeeEmpIdReader();
@@ -82,6 +88,17 @@ public class ConsoleWriter {
 		employee.setDeptId((int) deptIdReader.input());
 		//更新完了メッセージ
 		System.out.println(ConstantMsg.COMPLETE_UPDATE);
+		return employee;
+	}
+
+	public static Employee delete() throws SystemErrorException, IllegalInputException {
+		Employee employee = new Employee();
+		EmployeeEmpIdReader empIdReader = new EmployeeEmpIdReader();
+		//削除したい社員IDを入力
+		System.out.print(ConstantMsg.DELETE_EMP_ID);
+		employee.setEmpId((int) empIdReader.input());
+		//削除完了メッセージ
+		System.out.println(ConstantMsg.DELETE_EMPLOYEE_INFOMATION);
 		return employee;
 	}
 }

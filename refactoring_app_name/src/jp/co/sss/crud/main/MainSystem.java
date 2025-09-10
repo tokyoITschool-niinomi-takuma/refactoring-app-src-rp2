@@ -11,6 +11,7 @@ import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 import jp.co.sss.crud.io.EmployeeNameReader;
 import jp.co.sss.crud.io.MenuNoReader;
+import jp.co.sss.crud.service.EmployeeDeleteService;
 import jp.co.sss.crud.service.EmployeeFindAllService;
 import jp.co.sss.crud.service.EmployeeFindByDeptIdService;
 import jp.co.sss.crud.service.EmployeeFindByEmpNameService;
@@ -120,24 +121,23 @@ public class MainSystem {
 				registerService.execute();
 				break;
 
+			//社員情報更新
 			case ConstantValue.MENU_UPDATE:
 				// 更新機能の呼出
 				EmployeeUpdateService updateService = new EmployeeUpdateService();
 				updateService.execute();
 				break;
 
-			//			case ConstantValue.MENU_DELETE:
-			//				// 削除する社員IDを入力
-			//				System.out.print(ConstantMsg.DELETE_EMP_ID);
-			//
-			//				// 削除機能の呼出
-			//				EmployeeDAO.delete();
-			//				break;
-			//
+			//社員情報削除
+			case ConstantValue.MENU_DELETE:
+				// 削除機能の呼出
+				EmployeeDeleteService deleteService = new EmployeeDeleteService();
+				deleteService.execute();
+				break;
 			}
 			// DBとの接続を切断
 		} while (menuNo != ConstantValue.MENU_END);
+		//システム終了メッセージ
 		System.out.println(ConstantMsg.END_SYSTEM);
-
 	}
 }

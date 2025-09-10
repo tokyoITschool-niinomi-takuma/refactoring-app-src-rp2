@@ -211,44 +211,20 @@ public class EmployeeDAO implements IEmployeeDAO {
 			throw new SystemErrorException();
 		}
 	}
-}
 
-//	@Override
-//	public Integer delete(Integer empId) throws SystemErrorException {
-//		Connection connection = null;
-//		PreparedStatement preparedStatement = null;
-//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//
-//		try {
-//			// データベースに接続
-//			connection = DBManager.getDBConnection();
-//			String empId = br.readLine();
-//
-//			// ステートメントの作成
-//			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_DELETE);
-//
-//			// 社員IDをバインド
-//			preparedStatement.setInt(1, Integer.parseInt(empId));
-//
-//			// SQL文の実行(失敗時は戻り値0)
-//			preparedStatement.executeUpdate();
-//
-//			System.out.println(ConstantMsg.DELETE_EMPLOYEE_INFOMATION);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//
-//		}
-//
-//		finally {
-//			// Statementをクローズ
-//			try {
-//				DBManager.preparedStatementClose(preparedStatement);
-//				DBManager.DBCloseConnection(connection);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//			// DBとの接続を切断
-//		}
-//		return null;
-//	}
+	public void delete(Employee employee) throws SystemErrorException {
+		try (
+				// データベースに接続
+				Connection connection = DBManager.getDBConnection();
+				// ステートメントの作成
+				PreparedStatement preparedStatement = connection.prepareStatement(ConstantSQL.SQL_DELETE)) {
+			// 社員IDをバインド
+			preparedStatement.setInt(1, employee.getEmpId());
+			// SQL文の実行(失敗時は戻り値0)
+			preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SystemErrorException();
+		}
+	}
+}
