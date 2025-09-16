@@ -24,7 +24,7 @@ public class EmployeeFindByDeptIdService implements IEmployeeService {
 		int deptId = (int) new EmployeeDeptIdReader().input();
 		List<Employee> employees = employeeDAO.findByDeptId(deptId);
 		ConsoleWriter.showSearchreSult(employees);
-
+		System.out.println();//改行
 	}
 
 }

@@ -38,6 +38,8 @@ public class EmployeeDAO {
 				// 空リストを返す
 				return employees;
 			}
+			System.out.println();//改行
+			System.out.println(ConstantMsg.SEARCH_RESULT);
 			while (resultSet.next()) {
 				//Employeeのオブジェクトを生成
 				Employee employee = new Employee();
@@ -80,6 +82,8 @@ public class EmployeeDAO {
 					// 空リストを返す
 					return employees;
 				}
+				System.out.println();//改行
+				System.out.println(ConstantMsg.SEARCH_RESULT);
 				while (resultSet.next()) {
 					Employee employee = new Employee();
 					employee.setEmpId(resultSet.getInt("emp_id"));
@@ -122,6 +126,8 @@ public class EmployeeDAO {
 					System.out.println(ConstantMsg.NO_APPLICABLE_PERSON);
 					return employees;
 				}
+				System.out.println();//改行
+				System.out.println(ConstantMsg.SEARCH_RESULT);
 				while (resultSet.next()) {
 					//Employeeのオブジェクトを生成
 					Employee employee = new Employee();

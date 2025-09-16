@@ -16,5 +16,6 @@ public class EmployeeFindAllService implements IEmployeeService {
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 		List<Employee> employees = employeeDAO.findAll();
 		ConsoleWriter.showSearchreSult(employees);
+		System.out.println();//改行
 	}
 }

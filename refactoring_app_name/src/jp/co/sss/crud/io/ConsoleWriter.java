@@ -28,7 +28,6 @@ public class ConsoleWriter {
 	 * @param employees
 	 */
 	public static void showSearchreSult(List<Employee> employees) {
-		System.out.println(ConstantMsg.SEARCH_RESULT);
 		for (Employee employee : employees) {
 			System.out.println(employee);
 		}

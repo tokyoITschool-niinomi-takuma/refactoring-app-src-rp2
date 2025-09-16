@@ -21,5 +21,6 @@ public class EmployeeFindByEmpNameService implements IEmployeeService {
 		String searchName = (String) new EmployeeNameReader().input();
 		List<Employee> employees = employeeDAO.findByEmployeeName(searchName);
 		ConsoleWriter.showSearchreSult(employees);
+		System.out.println();//改行
 	}
 }
