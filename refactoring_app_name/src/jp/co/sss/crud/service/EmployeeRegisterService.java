@@ -6,7 +6,7 @@ import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
-public class EmployeeRegisterService {
+public class EmployeeRegisterService implements IEmployeeService {
 
 	/**
 	 * 新規登録サービスクラス

@@ -7,7 +7,7 @@ import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
-public class EmployeeFindAllService {
+public class EmployeeFindAllService implements IEmployeeService {
 
 	/**
 	 * 更新用のサービスクラス

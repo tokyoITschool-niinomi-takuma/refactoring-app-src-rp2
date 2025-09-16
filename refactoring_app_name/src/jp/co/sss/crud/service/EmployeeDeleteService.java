@@ -6,7 +6,7 @@ import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 
-public class EmployeeDeleteService {
+public class EmployeeDeleteService implements IEmployeeService {
 
 	/**
 	 * 削除用のサービスクラス
